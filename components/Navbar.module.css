@@ -20,19 +20,24 @@
   height: 3px;
   background: linear-gradient(
     90deg,
-    #ff0080 0%,
-    #ff8000 12.5%,
-    #ffff00 25%,
-    #00ff00 37.5%,
-    #00ffff 50%,
-    #0080ff 62.5%,
+    #00d4ff 0%,
+    #ff0080 25%,
+    #00ff80 50%,
     #8000ff 75%,
-    #ff0080 87.5%,
-    #ff8000 100%
+    #00d4ff 100%
   );
   background-size: 200% 100%;
-  animation: rgbWave 3s linear infinite;
+  animation: rgbWave 3s linear infinite, colorShiftNav 6s ease-in-out infinite;
   z-index: 1;
+}
+
+@keyframes colorShiftNav {
+  0%, 100% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(180deg);
+  }
 }
 
 .container {
@@ -98,13 +103,18 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #ff0080, #00ff80, #8000ff);
+  background: #00d4ff;
   transition: width 0.3s ease;
 }
 
-.navLink:hover::before,
+.navLink:hover::before {
+  width: 100%;
+  background: #00d4ff;
+}
+
 .navLink.active::before {
   width: 100%;
+  background: #00d4ff;
 }
 
 .navLink:hover {

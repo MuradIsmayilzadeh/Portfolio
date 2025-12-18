@@ -5,8 +5,8 @@ export default function Contact() {
   const contacts = [
     {
       title: 'Email',
-      value: 'samuraim001@gmail.com',
-      href: 'mailto:samuraim001@gmail.com'
+      value: 'muradismayilzadeh@gmail.com',
+      href: 'mailto:muradismayilzadeh@gmail.com'
     },
     {
       title: 'Code Academy',

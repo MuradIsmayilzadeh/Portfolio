@@ -8,11 +8,11 @@
   margin-bottom: 3rem;
   color: transparent;
   -webkit-text-stroke: 2px;
-  background: linear-gradient(90deg, #ff0080, #ff8000, #ffff00, #00ff00, #00ffff, #0080ff, #8000ff, #ff0080);
-  background-size: 200% 100%;
+  background: linear-gradient(90deg, #00d4ff, #ff0080, #00ff80, #8000ff, #00d4ff);
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: rgbTextFlow 3s linear infinite;
+  animation: rgbTextFlow 4s linear infinite, colorShift 8s ease-in-out infinite;
   position: relative;
   display: inline-block;
   text-shadow: none;
@@ -20,8 +20,23 @@
   cursor: none;
 }
 
+@keyframes colorShift {
+  0%, 100% {
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    filter: hue-rotate(90deg) brightness(1.1);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(1);
+  }
+  75% {
+    filter: hue-rotate(270deg) brightness(1.1);
+  }
+}
+
 .title:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 .title::after {
@@ -31,9 +46,11 @@
   left: 0;
   width: 150px;
   height: 2px;
-  background: linear-gradient(90deg, #ff0080, #00ff80, #8000ff);
+  background: linear-gradient(90deg, #00d4ff, #ff0080, #00ff80, #8000ff);
+  background-size: 200% 100%;
   border-radius: 1px;
   transition: width 0.4s ease;
+  animation: rgbProgressFlow 3s linear infinite;
 }
 
 .title:hover::after {
@@ -43,8 +60,21 @@
 .intro {
   font-size: 1.3rem;
   color: #888;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   max-width: 600px;
+}
+
+.categorySection {
+  margin-bottom: 5rem;
+}
+
+.categoryTitle {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
 }
 
 .projectGrid {

@@ -20,11 +20,18 @@ export default function PageTransition({ children }) {
   const [direction, setDirection] = useState('right')
 
   useEffect(() => {
-    if (isInitialLoad) {
+    // Check if this is initial site entry
+    const hasVisited = typeof window !== 'undefined' ? sessionStorage.getItem('hasVisited') : null
+    
+    if (isInitialLoad && !hasVisited) {
+      // Wait for loader to finish (3.5 seconds)
       const timer = setTimeout(() => {
         setIsInitialLoad(false)
-      }, 2000)
+      }, 3500)
       return () => clearTimeout(timer)
+    } else if (isInitialLoad && hasVisited) {
+      // Skip initial load animation if already visited
+      setIsInitialLoad(false)
     }
 
     if (pathname !== prevPathname && !isInitialLoad) {

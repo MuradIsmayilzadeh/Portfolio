@@ -3,12 +3,19 @@
 import { useEffect, useState } from 'react'
 
 export default function CustomCursor() {
+  const [mounted, setMounted] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [innerPosition, setInnerPosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     const handleMouseMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY })
       setIsVisible(true)
@@ -47,10 +54,12 @@ export default function CustomCursor() {
       document.body.removeEventListener('mouseenter', handleMouseEnter)
       observer.disconnect()
     }
-  }, [])
+  }, [mounted])
 
   // Smooth follow for inner circle
   useEffect(() => {
+    if (!mounted) return
+    
     let animationId
     
     const animate = () => {
@@ -64,9 +73,9 @@ export default function CustomCursor() {
     animationId = requestAnimationFrame(animate)
     
     return () => cancelAnimationFrame(animationId)
-  }, [position])
+  }, [position, mounted])
 
-  if (typeof window === 'undefined') return null
+  if (!mounted) return null
 
   return (
     <>
@@ -89,4 +98,3 @@ export default function CustomCursor() {
     </>
   )
 }
-

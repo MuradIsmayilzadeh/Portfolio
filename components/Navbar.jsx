@@ -18,7 +18,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          Portfolio
+          Murad Ismayilzadeh
         </Link>
         <ul className={styles.navLinks}>
           {navLinks.map((link) => (
