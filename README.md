@@ -1,60 +1,29 @@
-# Portfolio Project
+# Portfolio — Murad Ismayilzada
 
-A Next.js portfolio application with navbar and routing.
+Minimal, futuristic personal portfolio built with Next.js 14 (App Router), statically exported and deployed to GitHub Pages.
 
-## Getting Started
-
-First, install the dependencies:
+## Develop
 
 ```bash
 npm install
-```
-
-Then, run the development server:
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Editing content
 
-## Features
+All content lives in **`data/site.js`**: profile, projects (with category, status and `featured` flag), skills, timeline and contact channels. Pages render from it, so adding a project is a single object.
 
-- Minimalistic Next.js 14 setup with App Router
-- Server-Side Rendering (SSR) for optimal SEO and performance
-- Simple navbar with active link highlighting
-- File-based routing
-- Clean, minimal dark-themed UI
-- Pure JavaScript (no TypeScript, no unnecessary dependencies)
-
-## Pages
-
-- `/` - Home page
-- `/about` - About page
-- `/projects` - Projects page
-- `/contact` - Contact page
-
-## Project Structure
+## Structure
 
 ```
-├── app/
-│   ├── layout.jsx       # Root layout with navbar (SSR)
-│   ├── page.jsx         # Home page (SSR)
-│   ├── about/
-│   │   └── page.jsx     # About page (SSR)
-│   ├── projects/
-│   │   └── page.jsx     # Projects page (SSR)
-│   └── contact/
-│       └── page.jsx     # Contact page (SSR)
-├── components/
-│   └── Navbar.jsx       # Navigation component (Client)
-└── package.json
+app/            routes: / · /projects · /about · /contact, plus globals.css (design tokens + all styles)
+components/     Navbar, Footer, ProjectCard, ProjectExplorer (filters), Reveal, RoleCycler,
+                Cursor, BootLoader, ScrollTop, CopyButton
+data/site.js    content
 ```
 
-## SSR Benefits
+## Notes
 
-All pages are Server-Side Rendered by default, which means:
-- Better SEO - content is rendered on the server
-- Faster initial page load - HTML is sent directly to the browser
-- Better performance - reduced client-side JavaScript
-
+- Custom cursor runs only on fine pointers; boot screen shows once per session.
+- Respects `prefers-reduced-motion`; keyboard and screen-reader friendly (skip link, focus rings, aria labels).
+- `npm run build` outputs a static site to `out/` (see `.github/workflows/nextjs.yml`).

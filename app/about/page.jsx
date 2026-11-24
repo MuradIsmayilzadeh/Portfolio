@@ -1,83 +1,92 @@
-import styles from './page.module.css'
-import ScrollAnimation from '../../components/ScrollAnimation'
+import Reveal from '../../components/Reveal'
 import img from '../../components/images/me.jpeg'
+import { profile, skills, timeline } from '../../data/site'
+
+export const metadata = {
+  title: 'About',
+  description: 'Who I am, how I work and the tools I use.',
+}
+
 export default function About() {
-  const skills = [
-    'Unreal Engine', 'Unity', 'C++', 'Bluepr  ints',
-    'Gameplay Systems', 'Custom Engines',
-    'Web Development', 'Low-Level Programming',
-    'Mobile Development', 'Performance Optimization',
-    'Multiplayer Systems', 'Game Design'
-  ]
-
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title} data-hover>About Me</h1>
+    <section className="wrap section section--top">
+      <Reveal className="page-head">
+        <span className="eyebrow">// 02 — About</span>
+        <h1 className="h1">About me</h1>
+      </Reveal>
 
-      {/* Top section: Photo + Intro */}
-      <ScrollAnimation>
-        <div className={styles.topSection}>
-          <div className={styles.photoWrapper}>
-            {/* Replace src with your photo */}
-            <img
-              src={img.src}
-              alt="My photo"
-              className={styles.photo}
-            />
+      <div className="about">
+        <Reveal className="portrait">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={img.src} width={img.width} height={img.height} alt={`Portrait of ${profile.name}`} />
+          <div className="portrait__label mono">
+            <span>{profile.name.toUpperCase()}</span>
+            <span>{profile.location}</span>
           </div>
+        </Reveal>
 
-          <div className={styles.introWrapper}>
-            <p className={styles.intro}>
-              I’m an ADA student and a multi-disciplinary developer with a strong focus on game development,
-              but my experience goes far beyond games. I’ve built projects in web
-              development, low-level systems, and mobile applications, which gives me
-              a deep understanding of software from both high-level and low-level
-              perspectives.
-            </p>
-          </div>
+        <Reveal className="about__text" delay={100}>
+          <p className="lead">
+            I&apos;m an ADA University student and a multi-disciplinary developer.
+            Games are my focus — but I&apos;ve learned the most by building at every layer
+            of the stack.
+          </p>
+          <p>
+            My journey started with curiosity about how games work under the hood. That
+            led me into Unreal Engine and Unity, and then further down: writing my own
+            engine in C++ with Raylib and ImGui, and an .io-style arena game with no engine
+            at all.
+          </p>
+          <p>
+            In parallel I build production software. I shipped STK Library — a Next.js,
+            Express and SQLite system with role-based access and Docker deployment — and
+            the mySTK student portal for web, iOS and Android. For my own studio, Caucasus
+            Enterprises, I built the website, admin panel, API and Electron launcher that
+            sit around the game.
+          </p>
+          <p>
+            Across all of it I care about the same things: clean architecture, performance
+            and products that feel polished to use.
+          </p>
+        </Reveal>
+      </div>
+
+      <div className="section">
+        <Reveal className="section__head">
+          <span className="eyebrow">// Stack</span>
+          <h2 className="h2">Tools I reach for</h2>
+        </Reveal>
+        <div className="skills">
+          {skills.map((s, i) => (
+            <Reveal key={s.group} className="skillset" delay={i * 70}>
+              <h3 className="skillset__title mono">{s.group}</h3>
+              <ul>
+                {s.items.map((it) => (
+                  <li key={it}>{it}</li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
         </div>
-      </ScrollAnimation>
+      </div>
 
-      {/* Main content */}
-      <ScrollAnimation>
-        <div className={styles.content}>
-          <p>
-            My journey started with curiosity about how games and software work under
-            the hood. That curiosity led me into game engines like Unreal Engine and
-            Unity, where I design gameplay systems, tools, and performance-focused
-            architectures. At the same time, I explored web technologies, mobile
-            platforms, and low-level programming to understand software at every layer.
-          </p>
-
-          <p>
-            Working across different fields has shaped the way I approach development.
-            I focus on clean architecture, scalability, and performance, whether I’m
-            building a real-time game system, a backend service, or a low-level engine
-            component. I enjoy solving complex problems and turning ideas into
-            reliable, polished products.
-          </p>
-
-          <p>
-            Outside of active development, I experiment with new technologies, study
-            existing systems, and analyze games and applications to understand what
-            makes them efficient, scalable, and enjoyable to use.
-          </p>
-        </div>
-      </ScrollAnimation>
-
-      {/* Skills */}
-      <ScrollAnimation>
-        <div className={styles.skills}>
-          <h2 className={styles.skillsTitle}>Skills & Technologies</h2>
-          <div className={styles.skillGrid}>
-            {skills.map((skill, index) => (
-              <div key={index} className={styles.skill} data-hover>
-                {skill}
+      <div className="section">
+        <Reveal className="section__head">
+          <span className="eyebrow">// Log</span>
+          <h2 className="h2">Timeline</h2>
+        </Reveal>
+        <ol className="timeline">
+          {timeline.map((t, i) => (
+            <Reveal as="li" key={t.title} className="timeline__item" delay={i * 70}>
+              <span className="timeline__when mono">{t.when}</span>
+              <div>
+                <h3 className="timeline__title">{t.title}</h3>
+                <p className="muted">{t.text}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </ScrollAnimation>
-    </div>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
+    </section>
   )
 }

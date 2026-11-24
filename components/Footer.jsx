@@ -1,57 +1,30 @@
-import styles from './Footer.module.css'
+import Link from 'next/link'
+import { contacts, profile } from '../data/site'
 
 export default function Footer() {
+  const shown = contacts.filter((c) => ['email', 'github', 'youtube'].includes(c.id))
+
   return (
-    <footer className={styles.footer}>
-      <div className={styles.container}>
-
-        {/* Identity */}
-        <div className={styles.brand}>
-          <h3 className={styles.name}>Murad Ismayilzada</h3>
-          <p className={styles.role}>
-            Game Developer · Engine Programmer · Full-Stack Developer · Low Level Coder
-          </p>
+    <footer className="footer">
+      <div className="wrap footer__inner">
+        <div>
+          <p className="footer__name">{profile.name}</p>
+          <p className="muted">{profile.roles.join(' · ')}</p>
         </div>
-
-        {/* Contact */}
-        <div className={styles.contact}>
-          <span className={styles.title}>Contact</span>
-
-          {/* GitHub */}
-          <a
-            href="https://github.com/MuradIsmayilzadeh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            GitHub
-          </a>
-
-          <a
-            href="https://vk.com/mismayilzade"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            VK
-          </a>
-
-          <a
-            href="muradismayilzadehh@gmail.com"
-            className={styles.link}
-          >
-            muradismayilzadehh@gmail.com
-          </a>
-
-          <span className={styles.phone}>
-            +994 51 455 05 45
-          </span>
-        </div>
-
+        <ul className="footer__links">
+          {shown.map((c) => (
+            <li key={c.id}>
+              <a href={c.href} {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                {c.label}
+              </a>
+            </li>
+          ))}
+          <li><Link href="/contact">All channels</Link></li>
+        </ul>
       </div>
-
-      <div className={styles.bottom}>
-        © {new Date().getFullYear()} Murad Ismayilzada. All rights reserved.
+      <div className="wrap footer__bottom mono">
+        <span>© {new Date().getFullYear()} {profile.name}</span>
+        <span>{profile.location}</span>
       </div>
     </footer>
   )

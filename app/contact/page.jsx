@@ -1,76 +1,66 @@
-import styles from './page.module.css'
-import ScrollAnimation from '../../components/ScrollAnimation'
-import { FiMail, FiGithub } from 'react-icons/fi'
-import { SiCodecademy } from 'react-icons/si'
+import { FiArrowUpRight, FiGithub, FiMail, FiPhone, FiYoutube } from 'react-icons/fi'
+import { SiCodecademy, SiVk } from 'react-icons/si'
+import Reveal from '../../components/Reveal'
+import CopyButton from '../../components/CopyButton'
+import { contacts } from '../../data/site'
+
+export const metadata = {
+  title: 'Contact',
+  description: 'Get in touch with Murad Ismayilzada.',
+}
+
+const ICONS = {
+  email: FiMail,
+  github: FiGithub,
+  youtube: FiYoutube,
+  codecademy: SiCodecademy,
+  phone: FiPhone,
+  vk: SiVk,
+}
 
 export default function Contact() {
-  const contacts = [
-    {
-      title: 'Email',
-      value: 'muradismayilzadehh@gmail.com',
-      href: 'mailto:muradismayilzadehh@gmail.com',
-      icon: <FiMail />
-    },
-    {
-      title: 'Code Academy',
-      value: 'Murad Ismayilzadeh',
-      href: 'https://www.codecademy.com/profiles/dev9934992760',
-      icon: <SiCodecademy />
-    },
-    {
-      title: 'GitHub',
-      value: 'github.com/MuradIsmayilzadeh',
-      href: 'https://github.com/MuradIsmayilzadeh/',
-      icon: <FiGithub />
-    }
-  ]
+  const email = contacts.find((c) => c.id === 'email')
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title} data-hover>Get In Touch</h1>
-
-      <ScrollAnimation>
-        <p className={styles.intro}>
-          Have a project in mind or just want to chat? I'm always open to
-          discussing new opportunities and ideas.
+    <section className="wrap section section--top">
+      <Reveal className="page-head">
+        <span className="eyebrow">// 03 — Contact</span>
+        <h1 className="h1">Let&apos;s talk</h1>
+        <p className="lead">
+          A project, a role, a game idea or just a question — I usually reply within 24 hours.
         </p>
-      </ScrollAnimation>
+      </Reveal>
 
-      <ScrollAnimation>
-        <div className={styles.contactGrid}>
-          {contacts.map((contact, index) => (
-          <a
-            href={contact.href}
-            className={styles.cardLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div key={index} className={styles.contactCard} data-hover>
-              <div className={styles.cardHeader}>
-                <span className={styles.cardIcon}>
-                  {contact.icon}
-                </span>
-                <h3 className={styles.cardTitle}>
-                  {contact.title}
-                </h3>
-              </div>
+      <Reveal className="mailbox">
+        <a href={email.href} className="mailbox__addr">{email.value}</a>
+        <div className="mailbox__actions">
+          <a href={email.href} className="btn btn--primary">
+            <FiMail aria-hidden="true" /> Send email
+          </a>
+          <CopyButton value={email.value} />
+        </div>
+      </Reveal>
 
-                {contact.value}
-            </div>
+      <ul className="channels">
+        {contacts.map((c, i) => {
+          const Icon = ICONS[c.id]
+          const external = c.href.startsWith('http')
+          return (
+            <Reveal as="li" key={c.id} delay={i * 60}>
+              <a
+                href={c.href}
+                className="channel"
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                <span className="channel__icon">{Icon && <Icon aria-hidden="true" />}</span>
+                <span className="channel__label mono">{c.label}</span>
+                <span className="channel__value">{c.value}</span>
+                <FiArrowUpRight className="channel__arrow" aria-hidden="true" />
               </a>
-          ))}
-        </div>
-      </ScrollAnimation>
-
-      <ScrollAnimation>
-        <div className={styles.message}>
-          <p className={styles.messageText}>
-            I typically respond within 24 hours. Whether you have a question,
-            a project proposal, or just want to say hi, I'd love to hear from you.
-            Let's create something amazing together.
-          </p>
-        </div>
-      </ScrollAnimation>
-    </div>
+            </Reveal>
+          )
+        })}
+      </ul>
+    </section>
   )
 }
