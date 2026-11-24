@@ -40,9 +40,7 @@ export default function About() {
           <p>
             In parallel I build production software. I shipped STK Library — a Next.js,
             Express and SQLite system with role-based access and Docker deployment — and
-            the mySTK student portal for web, iOS and Android. For my own studio, Caucasus
-            Enterprises, I built the website, admin panel, API and Electron launcher that
-            sit around the game.
+            the mySTK student portal for web, iOS and Android.
           </p>
           <p>
             Across all of it I care about the same things: clean architecture, performance

@@ -41,18 +41,6 @@ export const projects = [
     tech: ['UE5', 'C++', 'Blueprints', 'Nanite', 'Lumen', 'Chaos Physics'],
   },
   {
-    id: 'caucasus-ecosystem',
-    title: 'Caucasus Platform',
-    category: 'platforms',
-    year: 'Ongoing',
-    status: 'active',
-    featured: false,
-    summary: 'The launcher, website and backend behind Caucasus Enterprises.',
-    description:
-      'Everything around the game: a React 19 studio website, an admin panel for content, an Express + MongoDB API serving files and data, and an Electron desktop launcher that handles builds and caching for players.',
-    tech: ['Electron', 'React 19', 'Express', 'MongoDB', 'Admin Panel'],
-  },
-  {
     id: 'imengine',
     title: 'ImEngine',
     category: 'engine',
@@ -85,8 +73,8 @@ export const projects = [
     year: '2026',
     status: 'live',
     featured: true,
-    link: 'https://github.com/MuradIsmayilzadeh/STKLibrary',
-    linkLabel: 'GitHub',
+    link: 'https://library.stk.edu.az',
+    linkLabel: 'Live site',
     summary: 'Digital library for STK — catalogue, PDFs and role-based admin.',
     description:
       'A full-stack digital library: Next.js 16 frontend, Express API and SQLite with automatic migrations. JWT auth with User / Admin / HeadAdmin roles, a PDF catalogue with import tooling, and a Docker Compose setup for one-command deployment.',
