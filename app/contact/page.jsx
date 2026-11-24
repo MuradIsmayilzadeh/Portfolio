@@ -1,7 +1,10 @@
 import { FiArrowUpRight, FiGithub, FiMail, FiPhone, FiYoutube } from 'react-icons/fi'
 import { SiCodecademy, SiVk } from 'react-icons/si'
 import Reveal from '../../components/Reveal'
+import SplitText from '../../components/SplitText'
+import Magnetic from '../../components/Magnetic'
 import CopyButton from '../../components/CopyButton'
+import Clock from '../../components/Clock'
 import { contacts } from '../../data/site'
 
 export const metadata = {
@@ -22,22 +25,30 @@ export default function Contact() {
   const email = contacts.find((c) => c.id === 'email')
 
   return (
-    <section className="wrap section section--top">
-      <Reveal className="page-head">
+    <section className="wrap section--top section--bottom">
+      <Reveal className="page-head" variant="none">
         <span className="eyebrow">// 03 — Contact</span>
-        <h1 className="h1">Let&apos;s talk</h1>
-        <p className="lead">
+        <h1 className="h1"><SplitText text="Let's talk" /></h1>
+        <Reveal as="p" className="lead" delay={300}>
           A project, a role, a game idea or just a question — I usually reply within 24 hours.
-        </p>
+        </Reveal>
       </Reveal>
 
-      <Reveal className="mailbox">
+      <Reveal className="mailbox" variant="clip">
+        <div className="mailbox__top mono">
+          <span><span className="pulse" aria-hidden="true" /> Accepting messages</span>
+          <Clock />
+        </div>
         <a href={email.href} className="mailbox__addr">{email.value}</a>
         <div className="mailbox__actions">
-          <a href={email.href} className="btn btn--primary">
-            <FiMail aria-hidden="true" /> Send email
-          </a>
-          <CopyButton value={email.value} />
+          <Magnetic>
+            <a href={email.href} className="btn btn--primary">
+              <FiMail aria-hidden="true" /> Send email
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <CopyButton value={email.value} />
+          </Magnetic>
         </div>
       </Reveal>
 
@@ -46,7 +57,7 @@ export default function Contact() {
           const Icon = ICONS[c.id]
           const external = c.href.startsWith('http')
           return (
-            <Reveal as="li" key={c.id} delay={i * 60}>
+            <Reveal as="li" key={c.id} delay={i * 60} variant="left">
               <a
                 href={c.href}
                 className="channel"

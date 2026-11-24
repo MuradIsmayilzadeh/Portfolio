@@ -1,4 +1,5 @@
 import Reveal from '../../components/Reveal'
+import SplitText from '../../components/SplitText'
 import ProjectExplorer from '../../components/ProjectExplorer'
 import { categories, projects } from '../../data/site'
 
@@ -8,15 +9,17 @@ export const metadata = {
 }
 
 export default function Projects() {
+  const live = projects.filter((p) => p.links?.some((l) => l.kind === 'live')).length
+
   return (
-    <section className="wrap section section--top">
-      <Reveal className="page-head">
+    <section className="wrap section--top section--bottom">
+      <Reveal className="page-head" variant="none">
         <span className="eyebrow">// 01 — Work</span>
-        <h1 className="h1">Projects</h1>
-        <p className="lead">
-          Games, a custom engine, production platforms and apps. Each one taught me
-          something about performance, architecture or shipping to real users.
-        </p>
+        <h1 className="h1"><SplitText text="Projects" /></h1>
+        <Reveal as="p" className="lead" delay={300}>
+          Games, a custom engine, production platforms and apps. {live} of them run live in
+          your browser — look for the <span className="accent">demo</span> badge.
+        </Reveal>
       </Reveal>
 
       <ProjectExplorer projects={projects} categories={categories} />

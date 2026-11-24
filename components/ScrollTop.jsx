@@ -1,36 +1,30 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import { scrollToTop, startScroll, subscribe } from '../lib/scroll'
 
-// Reset scroll on route change and drive the top progress bar.
+// Boots the scroll engine, resets scroll on route change and drives the
+// top progress bar.
 export default function ScrollTop() {
   const pathname = usePathname()
+  const bar = useRef(null)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [pathname])
-
-  useEffect(() => {
-    let raf = 0
-    const update = () => {
-      raf = 0
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      const p = max > 0 ? window.scrollY / max : 0
-      document.documentElement.style.setProperty('--scroll', p.toFixed(4))
-    }
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update)
-    }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      cancelAnimationFrame(raf)
-    }
+    startScroll()
+    let last = -1
+    return subscribe(({ y, h }) => {
+      const max = document.documentElement.scrollHeight - h
+      const p = max > 0 ? y / max : 0
+      if (Math.abs(p - last) < 0.0005) return
+      last = p
+      if (bar.current) bar.current.style.transform = `scaleX(${p})`
+    })
   }, [])
 
-  return <div className="scroll-progress" aria-hidden="true" />
+  useEffect(() => {
+    scrollToTop()
+  }, [pathname])
+
+  return <div ref={bar} className="scroll-progress" aria-hidden="true" />
 }

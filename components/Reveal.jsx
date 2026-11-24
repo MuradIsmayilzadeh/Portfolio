@@ -2,31 +2,42 @@
 
 import { useEffect, useRef } from 'react'
 
-// Fades children in once when they enter the viewport.
-export default function Reveal({ children, as: Tag = 'div', delay = 0, className = '', ...rest }) {
+// Adds `.is-in` once the element enters the viewport (after the boot screen,
+// if one is showing). CSS handles the actual animation.
+export default function Reveal({ children, as: Tag = 'div', delay = 0, className = '', variant = 'up', ...rest }) {
   const ref = useRef(null)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('is-in')
-          io.disconnect()
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
+    let io
+    const start = () => {
+      io = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            el.classList.add('is-in')
+            io.disconnect()
+          }
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+      )
+      // A fully clipped element never reports as intersecting: watch its parent.
+      io.observe(variant === 'clip' && el.parentElement ? el.parentElement : el)
+    }
+    if (document.documentElement.classList.contains('is-booting')) {
+      window.addEventListener('boot:done', start, { once: true })
+    } else start()
+    return () => {
+      io?.disconnect()
+      window.removeEventListener('boot:done', start)
+    }
+  }, [variant])
 
   return (
     <Tag
       ref={ref}
-      className={`reveal ${className}`}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      className={`reveal reveal--${variant} ${className}`}
+      style={delay ? { '--d': `${delay}ms` } : undefined}
       {...rest}
     >
       {children}

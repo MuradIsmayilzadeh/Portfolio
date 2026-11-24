@@ -22,8 +22,13 @@ components/     Navbar, Footer, ProjectCard, ProjectExplorer (filters), Reveal, 
 data/site.js    content
 ```
 
-## Notes
+## How the motion works
 
-- Custom cursor runs only on fine pointers; boot screen shows once per session.
-- Respects `prefers-reduced-motion`; keyboard and screen-reader friendly (skip link, focus rings, aria labels).
-- `npm run build` outputs a static site to `out/` (see `.github/workflows/nextjs.yml`).
+- `lib/scroll.js` — one `requestAnimationFrame` loop for the whole site. Drives Lenis smooth scrolling (desktop only) and calls every scroll effect once per frame.
+- `components/ShapeField.jsx` — the 3D point cloud (custom canvas renderer, no 3D library). Any element with `data-shape="sphere|knot|torus|cube|helix|galaxy|grid"` morphs it while crossing the middle of the screen; `data-shape-x`, `data-shape-scale` and `data-shape-o` position it.
+- `components/home/SplitScroll.jsx` — pinned section: the left column scrolls up, the right column scrolls down, and the model morphs per step in the middle.
+- `components/home/HorizontalWork.jsx` — vertical scroll drives a horizontal project rail (a swipeable row on narrow screens).
+- `Reveal`, `SplitText`, `ScrubText`, `ScrollVar`, `Marquee`, `Magnetic`, `Tilt`, `CountUp` — reveal and interaction building blocks.
+- `BootLoader` shows real load progress once per session; `app/template.jsx` adds a panel wipe between routes.
+- Respects `prefers-reduced-motion`; content stays visible without JavaScript; keyboard and screen-reader friendly.
+- `npm run build` outputs a static site to `out/` (see `.github/workflows/nextjs.yml`). Stop `npm run dev` first — both write `.next/`.

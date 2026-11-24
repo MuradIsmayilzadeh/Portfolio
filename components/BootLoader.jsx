@@ -1,50 +1,106 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-const LINES = [
-  'init kernel.render',
-  'mount /projects',
-  'link engine.imgui',
-  'ready',
-]
+const PANELS = 5
+const LINES = ['fonts', 'scene', 'assets', 'ready']
 
-// Short boot sequence, shown once per browser session (~1.2s).
+// First visit per session: shows real loading progress (fonts + window load,
+// with a short minimum so it never just flickers), then lifts away in panels.
+// The inline script in layout.jsx adds `html.is-booting` before first paint,
+// so returning visitors never see it. CSS has a failsafe if JS never runs.
 export default function BootLoader() {
-  const [phase, setPhase] = useState('pending') // pending | show | exit | done
-  const [step, setStep] = useState(0)
+  const [active, setActive] = useState(true)
+  const num = useRef(null)
+  const bar = useRef(null)
+  const log = useRef(null)
+  const root = useRef(null)
 
   useEffect(() => {
-    let seen = false
-    try {
-      seen = sessionStorage.getItem('booted') === '1'
-      sessionStorage.setItem('booted', '1')
-    } catch {}
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (seen || reduced) {
-      setPhase('done')
+    const html = document.documentElement
+    if (!html.classList.contains('is-booting')) {
+      setActive(false)
       return
     }
+    try { sessionStorage.setItem('booted', '1') } catch {}
 
-    setPhase('show')
-    const timers = LINES.map((_, i) => setTimeout(() => setStep(i + 1), 180 + i * 200))
-    timers.push(setTimeout(() => setPhase('exit'), 1150))
-    timers.push(setTimeout(() => setPhase('done'), 1650))
-    return () => timers.forEach(clearTimeout)
+    let target = 12
+    let shown = 0
+    let raf = 0
+    let done = false
+    const t0 = performance.now()
+    const MIN = 1100
+
+    const step = (k) => {
+      target = Math.max(target, k)
+      const li = log.current?.children
+      if (li) {
+        const n = Math.min(LINES.length, Math.round((target / 100) * LINES.length))
+        for (let i = 0; i < li.length; i++) li[i].classList.toggle('is-on', i < n)
+      }
+    }
+
+    document.fonts?.ready.then(() => step(55))
+    const onLoad = () => step(85)
+    if (document.readyState === 'complete') onLoad()
+    else window.addEventListener('load', onLoad, { once: true })
+    const capTimer = setTimeout(() => step(100), 3000) // never wait longer than this
+
+    const finish = () => {
+      done = true
+      root.current?.classList.add('boot--exit')
+      setTimeout(() => {
+        html.classList.remove('is-booting')
+        window.dispatchEvent(new Event('boot:done'))
+      }, 350)
+      setTimeout(() => setActive(false), 1300)
+    }
+
+    const tick = (t) => {
+      const elapsed = t - t0
+      const goal = elapsed > MIN && target >= 85 ? 100 : Math.min(target, 96)
+      shown += (goal - shown) * 0.09
+      if (goal === 100 && shown > 99.4) shown = 100
+      const v = Math.floor(shown)
+      if (num.current) num.current.textContent = String(v).padStart(3, '0')
+      if (bar.current) bar.current.style.transform = `scaleX(${shown / 100})`
+      if (v >= 100 && !done) return finish()
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      clearTimeout(capTimer)
+      window.removeEventListener('load', onLoad)
+    }
   }, [])
 
-  if (phase === 'done') return null
+  if (!active) return null
 
   return (
-    <div className={`boot ${phase === 'exit' ? 'boot--exit' : ''} ${phase === 'pending' ? 'boot--pending' : ''}`} aria-hidden="true">
-      <div className="boot__inner">
-        <div className="boot__logo">M<span>/</span>I</div>
-        <ul className="boot__lines">
-          {LINES.slice(0, step).map((l) => (
-            <li key={l}><span>&gt;</span> {l}</li>
+    <div className="boot" ref={root} aria-hidden="true">
+      <div className="boot__panels">
+        {Array.from({ length: PANELS }, (_, i) => (
+          <span key={i} style={{ '--i': i }} />
+        ))}
+      </div>
+      <div className="boot__ui">
+        <div className="boot__top mono">
+          <span>M<b>/</b>I — PORTFOLIO</span>
+          <span>SYS.BOOT v2</span>
+        </div>
+        <ul className="boot__log mono" ref={log}>
+          {LINES.map((l) => (
+            <li key={l}>
+              <span>&gt;</span> load.{l}
+            </li>
           ))}
         </ul>
-        <div className="boot__bar"><span style={{ width: `${(step / LINES.length) * 100}%` }} /></div>
+        <div className="boot__bottom">
+          <span className="boot__num" ref={num}>000</span>
+          <div className="boot__bar"><span ref={bar} /></div>
+        </div>
       </div>
     </div>
   )
