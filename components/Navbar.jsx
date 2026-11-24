@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { lockScroll, subscribe } from '../lib/scroll'
+import Decode from './Decode'
+import { contacts } from '../data/site'
 
 const LINKS = [
   { href: '/', label: 'Index', n: '00' },
@@ -78,10 +80,19 @@ export default function Navbar() {
                   aria-current={isActive(l.href) ? 'page' : undefined}
                 >
                   <span className="nav__n">{l.n}</span>
-                  {l.label}
+                  <Decode text={l.label} />
                 </Link>
               </li>
             ))}
+            <li className="nav__extra mono" style={{ '--i': LINKS.length }}>
+              {contacts
+                .filter((c) => ['email', 'github', 'youtube'].includes(c.id))
+                .map((c) => (
+                  <a key={c.id} href={c.href} {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                    {c.id === 'email' ? c.value : c.label}
+                  </a>
+                ))}
+            </li>
           </ul>
         </nav>
 

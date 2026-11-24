@@ -26,6 +26,9 @@ data/site.js    content
 
 - `lib/scroll.js` — one `requestAnimationFrame` loop for the whole site. Drives Lenis smooth scrolling (desktop only) and calls every scroll effect once per frame.
 - `components/ShapeField.jsx` — the 3D point cloud (custom canvas renderer, no 3D library). Any element with `data-shape="sphere|knot|torus|cube|helix|galaxy|grid"` morphs it while crossing the middle of the screen; `data-shape-x`, `data-shape-scale` and `data-shape-o` position it.
+  It is interactive: points flee the cursor, dragging spins it, and a click blasts it apart into the next shape.
+- `components/home/Orbit3D.jsx` — pinned 3D ring of tech tiles around the model; scroll or drag to spin.
+- `Decode` scrambles labels into place; `FooterMark` is the cursor-lit footer wordmark.
 - `components/home/SplitScroll.jsx` — pinned section: the left column scrolls up, the right column scrolls down, and the model morphs per step in the middle.
 - `components/home/HorizontalWork.jsx` — vertical scroll drives a horizontal project rail (a swipeable row on narrow screens).
 - `Reveal`, `SplitText`, `ScrubText`, `ScrollVar`, `Marquee`, `Magnetic`, `Tilt`, `CountUp` — reveal and interaction building blocks.

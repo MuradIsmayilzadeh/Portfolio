@@ -1,3 +1,4 @@
+import Decode from './Decode'
 import { FiArrowUpRight, FiGithub, FiLock, FiPlay, FiGlobe } from 'react-icons/fi'
 
 const STATUS = {
@@ -33,7 +34,7 @@ export default function ProjectCard({ project, index, compact = false }) {
       <h3 className="card__title">
         {primary ? (
           <a href={primary.href} target="_blank" rel="noopener noreferrer" className="card__stretch">
-            {title}
+            <Decode text={title} />
           </a>
         ) : (
           title

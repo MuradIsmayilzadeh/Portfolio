@@ -1,4 +1,5 @@
 import Reveal from '../../components/Reveal'
+import Decode from '../../components/Decode'
 import SplitText from '../../components/SplitText'
 import ScrubText from '../../components/ScrubText'
 import ScrollVar from '../../components/ScrollVar'
@@ -16,7 +17,7 @@ export default function About() {
     <>
       <section className="wrap section--top">
         <Reveal className="page-head" variant="none">
-          <span className="eyebrow">// 02 — About</span>
+          <Decode className="eyebrow" text="// 02 — About" />
           <h1 className="h1"><SplitText text="About me" /></h1>
         </Reveal>
 
@@ -65,7 +66,7 @@ export default function About() {
 
       <section className="wrap section">
         <Reveal className="section__head">
-          <span className="eyebrow">// Stack</span>
+          <Decode className="eyebrow" text="// Stack" />
           <h2 className="h2"><SplitText text="Tools I reach for" by="word" /></h2>
         </Reveal>
         <div className="skills">
@@ -86,7 +87,7 @@ export default function About() {
 
       <section className="wrap section section--bottom">
         <Reveal className="section__head">
-          <span className="eyebrow">// Log</span>
+          <Decode className="eyebrow" text="// Log" />
           <h2 className="h2"><SplitText text="Timeline" by="word" /></h2>
         </Reveal>
         <ScrollVar as="ol" className="timeline" mode="read">

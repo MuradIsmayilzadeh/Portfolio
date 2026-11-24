@@ -22,12 +22,16 @@ export default function Tilt({ children, max = 7 }) {
         el.style.setProperty('--rx', `${(0.5 - py) * max * 2}deg`)
         el.style.setProperty('--mx', `${px * 100}%`)
         el.style.setProperty('--my', `${py * 100}%`)
+        el.style.setProperty('--px', ((px - 0.5) * 2).toFixed(3))
+        el.style.setProperty('--py', ((py - 0.5) * 2).toFixed(3))
       })
     }
     const leave = () => {
       cancelAnimationFrame(raf)
       el.style.setProperty('--rx', '0deg')
       el.style.setProperty('--ry', '0deg')
+      el.style.setProperty('--px', '0')
+      el.style.setProperty('--py', '0')
     }
     el.addEventListener('pointermove', move)
     el.addEventListener('pointerleave', leave)

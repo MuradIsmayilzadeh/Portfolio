@@ -28,7 +28,12 @@ export default function Cursor() {
 
     const onOver = (e) => {
       const hit = e.target.closest('a, button, [data-hover]')
-      ring.current?.classList.toggle('is-hover', Boolean(hit))
+      const zone = !hit && e.target.closest('[data-cursor]')
+      const r = ring.current
+      if (!r) return
+      r.classList.toggle('is-hover', Boolean(hit))
+      r.classList.toggle('is-label', Boolean(zone))
+      r.dataset.label = zone ? zone.dataset.cursor : ''
     }
 
     const onLeave = () => ring.current?.classList.add('is-hidden')

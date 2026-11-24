@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { contacts, profile } from '../data/site'
-import ScrollVar from './ScrollVar'
+import FooterMark from './FooterMark'
 
 export default function Footer() {
   const shown = contacts.filter((c) => ['email', 'github', 'youtube'].includes(c.id))
@@ -24,11 +24,9 @@ export default function Footer() {
         </ul>
       </div>
 
-      <ScrollVar className="footer__mark" aria-hidden="true">
-        <span>MURAD</span>
-        <span className="footer__mark-slash">/</span>
-        <span>I</span>
-      </ScrollVar>
+      <div className="wrap">
+        <FooterMark text={profile.name} />
+      </div>
 
       <div className="wrap footer__bottom mono">
         <span>© {new Date().getFullYear()} {profile.name}</span>

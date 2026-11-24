@@ -7,7 +7,7 @@ import Tilt from '../Tilt'
 
 // Vertical scroll drives a horizontal rail of project cards (pinned).
 // On touch / narrow screens it becomes a native swipeable row.
-export default function HorizontalWork({ projects, allProjects, children }) {
+export default function HorizontalWork({ projects, children }) {
   const root = useRef(null)
   const track = useRef(null)
   const bar = useRef(null)
@@ -28,6 +28,14 @@ export default function HorizontalWork({ projects, allProjects, children }) {
     ro.observe(tr)
     window.addEventListener('resize', measure)
 
+    // phones: native swipe row, progress follows the row's own scroll
+    const onRowScroll = () => {
+      if (pinned) return
+      const max = tr.scrollWidth - tr.clientWidth
+      bar.current.style.transform = `scaleX(${max > 0 ? tr.scrollLeft / max : 0})`
+    }
+    tr.addEventListener('scroll', onRowScroll, { passive: true })
+
     let lastP = -1
     const unsub = subscribe(({ h }) => {
       if (!pinned) return
@@ -42,6 +50,7 @@ export default function HorizontalWork({ projects, allProjects, children }) {
     })
     return () => {
       unsub()
+      tr.removeEventListener('scroll', onRowScroll)
       ro.disconnect()
       window.removeEventListener('resize', measure)
     }
@@ -49,18 +58,20 @@ export default function HorizontalWork({ projects, allProjects, children }) {
 
   return (
     <section ref={root} className="hwork" data-shape="galaxy" data-shape-x="0" data-shape-scale="1.25" data-shape-o="0.45">
+      <div className="hwork__intro hwork__intro--top wrap">{children}</div>
       <div className="hwork__sticky">
         <div className="hwork__track" ref={track}>
           <div className="hwork__intro">{children}</div>
           {projects.map((p) => (
             <div className="hwork__item" key={p.id}>
               <Tilt>
-                <ProjectCard project={p} index={allProjects.indexOf(p)} compact />
+                <ProjectCard project={p} index={p.n} compact />
               </Tilt>
             </div>
           ))}
         </div>
         <div className="hwork__progress"><span ref={bar} /></div>
+        <p className="hwork__swipe mono" aria-hidden="true">Swipe <span>→</span></p>
       </div>
     </section>
   )

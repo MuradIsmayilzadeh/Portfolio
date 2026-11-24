@@ -1,4 +1,5 @@
 import Reveal from '../../components/Reveal'
+import Decode from '../../components/Decode'
 import SplitText from '../../components/SplitText'
 import ProjectExplorer from '../../components/ProjectExplorer'
 import { categories, projects } from '../../data/site'
@@ -14,7 +15,7 @@ export default function Projects() {
   return (
     <section className="wrap section--top section--bottom">
       <Reveal className="page-head" variant="none">
-        <span className="eyebrow">// 01 — Work</span>
+        <Decode className="eyebrow" text="// 01 — Work" />
         <h1 className="h1"><SplitText text="Projects" /></h1>
         <Reveal as="p" className="lead" delay={300}>
           Games, a custom engine, production platforms and apps. {live} of them run live in

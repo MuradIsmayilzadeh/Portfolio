@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Decode from '../components/Decode'
 import { FiArrowRight, FiArrowUpRight } from 'react-icons/fi'
 import Reveal from '../components/Reveal'
 import RoleCycler from '../components/RoleCycler'
@@ -11,6 +12,7 @@ import Clock from '../components/Clock'
 import ShapeField from '../components/ShapeField'
 import SplitScroll from '../components/home/SplitScroll'
 import HorizontalWork from '../components/home/HorizontalWork'
+import Orbit3D from '../components/home/Orbit3D'
 import { profile, projects, skills } from '../data/site'
 
 const steps = [
@@ -38,8 +40,11 @@ const steps = [
 ]
 
 export default function Home() {
-  const rail = projects.filter((p) => p.featured || p.links?.some((l) => l.kind === 'live'))
+  const rail = projects
+    .map((p, n) => ({ ...p, n }))
+    .filter((p) => p.featured || p.links?.some((l) => l.kind === 'live'))
   const allTech = skills.flatMap((s) => s.items)
+  const orbitItems = skills.flatMap((s) => s.items.slice(0, 4).map((name) => ({ name, group: s.group })))
   const liveCount = projects.filter((p) => p.links?.some((l) => l.kind === 'live')).length
 
   const stats = [
@@ -84,9 +89,13 @@ export default function Home() {
           </Magnetic>
         </Reveal>
 
-        <Reveal className="hero__hud mono" variant="fade" delay={900} aria-hidden="true">
+        <div className="hero__floor" aria-hidden="true"><i /></div>
+
+        <Reveal className="hero__hud mono" variant="fade" delay={900} margin="0px" aria-hidden="true">
           <Clock />
           <span className="hide-sm">40.37°N 49.83°E</span>
+          <span className="hero__hint hide-touch">[ drag · click the model ]</span>
+          <span className="hero__hint show-touch">[ tap the model ]</span>
           <span className="scroll-cue">Scroll <i /></span>
         </Reveal>
       </section>
@@ -99,7 +108,7 @@ export default function Home() {
       {/* STATEMENT ------------------------------------------------------- */}
       <section className="wrap statement" data-shape="knot" data-shape-x="-0.27" data-shape-scale="0.85">
         <div className="statement__body">
-          <span className="eyebrow">// Approach</span>
+          <Decode className="eyebrow" text="// Approach" />
           <ScrubText
             className="statement__text"
             text="I learn by going one layer deeper. Gameplay led me to engines, engines led me to rendering and memory, and shipping real platforms taught me what it takes to make software people actually rely on."
@@ -110,13 +119,16 @@ export default function Home() {
       {/* SPLIT SCROLL ---------------------------------------------------- */}
       <section className="wrap section__head split-head">
         <Reveal>
-          <span className="eyebrow">// What I do</span>
+          <Decode className="eyebrow" text="// What I do" />
           <h2 className="h2">
             <SplitText text="From the render loop to production" by="word" />
           </h2>
         </Reveal>
       </section>
       <SplitScroll steps={steps} tiles={[...allTech, ...allTech.slice(0, 6)]} />
+
+      {/* 3D ORBIT ------------------------------------------------------ */}
+      <Orbit3D items={orbitItems} />
 
       {/* STATS ----------------------------------------------------------- */}
       <section className="wrap section" data-shape="grid" data-shape-x="0" data-shape-scale="1.3" data-shape-o="0.35">
@@ -131,11 +143,11 @@ export default function Home() {
       </section>
 
       {/* HORIZONTAL WORK ------------------------------------------------- */}
-      <HorizontalWork projects={rail} allProjects={projects}>
-        <span className="eyebrow">// Selected work</span>
+      <HorizontalWork projects={rail}>
+        <Decode className="eyebrow" text="// Selected work" />
         <h2 className="h2">Things I&apos;m proud of</h2>
         <p className="muted">
-          {liveCount} of them run live in your browser. Keep scrolling — or{' '}
+          {liveCount} of them run live in your browser —{' '}
           <Link href="/projects" className="link-arrow">see all {projects.length} <FiArrowUpRight aria-hidden="true" /></Link>
         </p>
       </HorizontalWork>
@@ -143,7 +155,7 @@ export default function Home() {
       {/* CTA ------------------------------------------------------------- */}
       <section className="wrap section cta" data-shape="sphere" data-shape-x="0" data-shape-scale="1.35" data-shape-o="0.5">
         <Reveal className="cta__inner" variant="none">
-          <span className="eyebrow">// Next</span>
+          <Decode className="eyebrow" text="// Next" />
           <h2 className="cta__title">
             <SplitText text="Let's build" />
             <SplitText text="something real." className="accent" delay={250} />

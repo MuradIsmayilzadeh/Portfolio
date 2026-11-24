@@ -1,4 +1,5 @@
 import { FiArrowUpRight, FiGithub, FiMail, FiPhone, FiYoutube } from 'react-icons/fi'
+import Decode from '../../components/Decode'
 import { SiCodecademy, SiVk } from 'react-icons/si'
 import Reveal from '../../components/Reveal'
 import SplitText from '../../components/SplitText'
@@ -27,7 +28,7 @@ export default function Contact() {
   return (
     <section className="wrap section--top section--bottom">
       <Reveal className="page-head" variant="none">
-        <span className="eyebrow">// 03 — Contact</span>
+        <Decode className="eyebrow" text="// 03 — Contact" />
         <h1 className="h1"><SplitText text="Let's talk" /></h1>
         <Reveal as="p" className="lead" delay={300}>
           A project, a role, a game idea or just a question — I usually reply within 24 hours.

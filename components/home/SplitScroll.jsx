@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { pinProgress, subscribe } from '../../lib/scroll'
+import { clamp, pinProgress, subscribe } from '../../lib/scroll'
 
 // Pinned three-column section:
 //   left column scrolls up, right column scrolls DOWN (reverse),
@@ -27,13 +27,19 @@ export default function SplitScroll({ steps, tiles }) {
 
       const L = left.current
       const Rc = right.current
-      const lMax = L.scrollHeight - h
       const rMax = Rc.scrollHeight - h
-      L.style.transform = `translate3d(0, ${Math.round(-p * lMax)}px, 0)`
+      // Panels hold, then glide to the next one (a stepped "snap" feel).
+      const last = steps.length - 1
+      const t = p * last
+      const i0 = Math.min(last, Math.floor(t))
+      const f = clamp((t - i0 - 0.3) / 0.4)
+      const v = Math.min(last, i0 + f * f * (3 - 2 * f))
+      const panelH = L.firstElementChild.offsetHeight
+      L.style.transform = `translate3d(0, ${Math.round(-v * panelH)}px, 0)`
       Rc.style.transform = `translate3d(0, ${Math.round(-(1 - p) * rMax)}px, 0)`
       bar.current.style.transform = `scaleY(${p})`
 
-      const step = Math.min(steps.length - 1, Math.floor(p * steps.length))
+      const step = Math.round(v)
       if (step !== lastStep) {
         lastStep = step
         el.dataset.shape = steps[step].shape
@@ -49,6 +55,8 @@ export default function SplitScroll({ steps, tiles }) {
       className="split"
       data-shape={steps[0].shape}
       data-shape-x="0"
+      data-shape-my="-0.27"
+      data-shape-ms="1.05"
       data-shape-scale="0.8"
       style={{ '--steps': steps.length }}
     >
