@@ -181,7 +181,7 @@ export const projects = [
     year: '2026',
     status: 'live',
     featured: false,
-    link: 'https://github.com/MuradIsmayilzadeh/Portfolio-Project',
+    link: 'https://github.com/MuradIsmayilzadeh/Portfolio',
     linkLabel: 'GitHub',
     summary: 'Statically exported Next.js site, deployed to GitHub Pages.',
     description:
