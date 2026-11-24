@@ -31,7 +31,7 @@ export default function Home() {
     { value: projects.length, label: 'Projects' },
     { value: '4', label: 'Domains' },
     { value: `${techCount}+`, label: 'Technologies' },
-    { value: projects.filter((p) => p.category === 'platforms' || p.id === 'mystk').length, label: 'Full platforms' },
+    { value: projects.filter((p) => p.links?.some((l) => l.kind === 'live')).length, label: 'Live demos' },
   ]
 
   return (

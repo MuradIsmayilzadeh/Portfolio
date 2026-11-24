@@ -1,10 +1,14 @@
 // Single source of truth for all portfolio content.
 // Edit this file to add projects, skills or contact channels.
 
+const GH = 'https://github.com/MuradIsmayilzadeh'
+const PAGES = 'https://muradismayilzadeh.github.io'
+
 export const profile = {
   name: 'Murad Ismayilzada',
   short: 'M.I.',
   location: 'Baku, Azerbaijan',
+  github: GH,
   roles: [
     'Game Developer',
     'Engine Programmer',
@@ -25,6 +29,8 @@ export const categories = [
   { id: 'mobile', label: 'Mobile' },
 ]
 
+// links: the first one is the card's primary action.
+// kind: 'live' (running demo), 'code' (repository) or 'video'.
 export const projects = [
   {
     id: 'caucasus-nights',
@@ -33,9 +39,12 @@ export const projects = [
     year: 'In development',
     status: 'active',
     featured: true,
-    link: 'https://www.youtube.com/@caucasusenterprises',
-    linkLabel: 'YouTube',
-    summary: 'Open-world driving game built for realism in Unreal Engine 5.',
+    links: [
+      { kind: 'live', label: 'Game site', href: `${PAGES}/Caucasus/` },
+      { kind: 'video', label: 'YouTube', href: 'https://www.youtube.com/@caucasusenterprises' },
+      { kind: 'code', label: 'Code', href: `${GH}/Caucasus` },
+    ],
+    summary: 'Open-world driving game set in Baku, built in Unreal Engine 5.',
     description:
       'A large-scale open-world car game with dynamic weather, advanced vehicle physics and massive environments. Nanite handles dense geometry while Lumen delivers cinematic global illumination across urban and natural landscapes.',
     tech: ['UE5', 'C++', 'Blueprints', 'Nanite', 'Lumen', 'Chaos Physics'],
@@ -44,23 +53,26 @@ export const projects = [
     id: 'imengine',
     title: 'ImEngine',
     category: 'engine',
-    year: 'Ongoing',
+    year: '2025',
     status: 'active',
     featured: true,
+    links: [
+      { kind: 'code', label: 'Engine', href: `${GH}/ImEngine` },
+      { kind: 'code', label: 'Plugin API', href: `${GH}/ImEngine-Backend` },
+    ],
     summary: 'A custom C++ game engine with an ImGui editor and plugin system.',
     description:
-      'Built from the ground up to understand engine internals: custom rendering pipeline, scene system, component-based architecture, asset management and ImGui editor tooling. A small Express service powers its plugin registry (profiler, material editor, extensions).',
+      'Built from the ground up to understand engine internals: ECS, scene system, render layers, shader registry, scripting, save system and a built-in profiler, all driven from an ImGui editor. A small Express service powers its plugin registry.',
     tech: ['C++', 'Raylib', 'ImGui', 'ECS', 'Express'],
   },
   {
     id: 'battlez',
     title: 'Battlez.IO',
     category: 'games',
-    year: 'Prototype',
+    year: '2025',
     status: 'done',
     featured: false,
-    link: 'https://github.com/MuradIsmayilzadeh/Battlez.io',
-    linkLabel: 'GitHub',
+    links: [{ kind: 'code', label: 'Code', href: `${GH}/Battlez.io` }],
     summary: 'An .io-style arena game written with no engine at all.',
     description:
       'A learning-focused prototype inspired by Lordz.io, built entirely without a traditional engine to strengthen low-level skills: entity systems, real-time input handling and rendering logic in pure C++ and Raylib.',
@@ -73,12 +85,24 @@ export const projects = [
     year: '2026',
     status: 'live',
     featured: true,
-    link: 'https://library.stk.edu.az',
-    linkLabel: 'Live site',
+    links: [{ kind: 'live', label: 'Live site', href: 'https://library.stk.edu.az' }],
     summary: 'Digital library for STK — catalogue, PDFs and role-based admin.',
     description:
       'A full-stack digital library: Next.js 16 frontend, Express API and SQLite with automatic migrations. JWT auth with User / Admin / HeadAdmin roles, a PDF catalogue with import tooling, and a Docker Compose setup for one-command deployment.',
     tech: ['Next.js 16', 'React 19', 'Express', 'SQLite', 'JWT', 'Docker'],
+  },
+  {
+    id: 'cms-v2',
+    title: 'CMS v2',
+    category: 'platforms',
+    year: 'Full-stack',
+    status: 'done',
+    featured: false,
+    links: [{ kind: 'code', label: 'Code', href: `${GH}/CMS-v2` }],
+    summary: 'Programming contest system with timed C++ submissions.',
+    description:
+      'Participants log in to a contest, read the problems and upload C++ solutions before the timer runs out. Admins create contests, add problems and participants, and review submissions. Express + JWT backend with MongoDB or a local JSON store.',
+    tech: ['Next.js 13', 'Express', 'JWT', 'MongoDB'],
   },
   {
     id: 'mystk',
@@ -87,10 +111,72 @@ export const projects = [
     year: '2026',
     status: 'active',
     featured: false,
+    links: [],
     summary: 'Student-first college portal for web, iOS and Android.',
     description:
       'Students see their group, schedule, assignments, grades, attendance and transcript; teachers get attendance and gradebook workflows; admins manage faculties, classes and audit logs. Built on STK Login as the single identity provider, with roles enforced server-side.',
     tech: ['Expo Router', 'React Native', 'Express', 'Prisma', 'SSO'],
+  },
+  {
+    id: 'techhub',
+    title: 'TechHub',
+    category: 'web',
+    year: 'Next.js',
+    status: 'live',
+    featured: false,
+    links: [
+      { kind: 'live', label: 'Live demo', href: `${PAGES}/TechHub/` },
+      { kind: 'code', label: 'Code', href: `${GH}/TechHub` },
+    ],
+    summary: 'Online electronics store with catalogue, search and checkout.',
+    description:
+      'An Azerbaijani-language electronics store with category filters, live search, product pages and an order flow. Products come from MongoDB, with a built-in catalogue fallback that also powers the static demo.',
+    tech: ['Next.js 14', 'Tailwind CSS', 'MongoDB', 'Mongoose'],
+  },
+  {
+    id: 'advantage',
+    title: 'AdVantage',
+    category: 'web',
+    year: 'Next.js',
+    status: 'live',
+    featured: false,
+    links: [
+      { kind: 'live', label: 'Live demo', href: `${PAGES}/AdVantage/` },
+      { kind: 'code', label: 'Code', href: `${GH}/AdVantage` },
+    ],
+    summary: 'Social media marketing agency site with pricing packages.',
+    description:
+      'Landing page, package pricing and detail pages, and a custom-plan request form for an Instagram marketing agency. Packages are served from MongoDB through an API route, with sample data for the static demo.',
+    tech: ['Next.js 14', 'MongoDB', 'CSS Modules'],
+  },
+  {
+    id: 'grandala',
+    title: 'Grandala Travel',
+    category: 'web',
+    year: 'React',
+    status: 'live',
+    featured: false,
+    links: [
+      { kind: 'live', label: 'Live demo', href: `${PAGES}/Grandala-Travel/` },
+      { kind: 'code', label: 'Code', href: `${GH}/Grandala-Travel` },
+    ],
+    summary: 'Travel agency website with service pages and request form.',
+    description:
+      'A React travel agency site with a page per service, routing via React Router and a request form that emails the agency through a small Python client service.',
+    tech: ['React', 'React Router', 'Python API'],
+  },
+  {
+    id: 'testyukle',
+    title: 'TestYukle',
+    category: 'web',
+    year: 'Full-stack',
+    status: 'done',
+    featured: false,
+    links: [],
+    summary: 'School test platform for creating and taking exams.',
+    description:
+      'A school testing platform where tests are uploaded and taken online, with a React + Redux frontend and an Express backend.',
+    tech: ['React', 'Redux', 'Express'],
   },
   {
     id: 'rentahouse',
@@ -99,8 +185,7 @@ export const projects = [
     year: 'Team project',
     status: 'done',
     featured: false,
-    link: 'https://github.com/SatAl-az/Kirayeev',
-    linkLabel: 'GitHub',
+    links: [{ kind: 'code', label: 'Code', href: 'https://github.com/SatAl-az/Kirayeev' }],
     summary: 'Rental platform for listing, searching and managing homes.',
     description:
       'Users list properties, search for homes and manage rentals through a structured backend. Built with PHP and SQL with a focus on authentication, data integrity and clean user workflows.',
@@ -113,25 +198,10 @@ export const projects = [
     year: 'Paused',
     status: 'paused',
     featured: false,
-    link: 'https://github.com/SkillSwapCommunity/Project',
-    linkLabel: 'GitHub',
+    links: [{ kind: 'code', label: 'Code', href: 'https://github.com/SkillSwapCommunity/Project' }],
     summary: 'Community platform for exchanging skills and forming study groups.',
     description:
       'A community-driven platform to help users exchange skills, build learning groups and grow collaborative communities. Focused on social interaction and scalability; development is currently paused.',
-    tech: ['React', 'Next.js', 'Express.js'],
-  },
-  {
-    id: 'react-apps',
-    title: 'React / Next.js Apps',
-    category: 'web',
-    year: 'Collection',
-    status: 'done',
-    featured: false,
-    link: 'https://github.com/MuradIsmayilzadeh/React-Apps',
-    linkLabel: 'GitHub',
-    summary: 'CMS, travel and client sites built with React and Next.js.',
-    description:
-      'A set of modern applications including a Next.js CMS, a travel agency site and several client projects. Responsive UI, API integration, server rendering and scalable frontend architecture.',
     tech: ['React', 'Next.js', 'Express.js'],
   },
   {
@@ -141,12 +211,11 @@ export const projects = [
     year: 'Collection',
     status: 'done',
     featured: false,
-    link: 'https://github.com/MuradIsmayilzadeh/Sites',
-    linkLabel: 'GitHub',
-    summary: 'Framework-free full-stack PHP websites with admin panels.',
+    links: [{ kind: 'code', label: 'Code', href: `${GH}/Sites` }],
+    summary: 'Framework-free PHP websites, including a game store.',
     description:
-      'Small business pages through to structured systems with authentication, databases and admin panels. Emphasises backend logic, database design and core web fundamentals without heavy frameworks.',
-    tech: ['PHP', 'MySQL', 'HTML', 'CSS'],
+      'Small business pages through to structured systems with authentication, databases and admin panels, such as an online game shop. Emphasises backend logic, database design and core web fundamentals without heavy frameworks.',
+    tech: ['PHP', 'Composer', 'MySQL', 'HTML', 'CSS'],
   },
   {
     id: 'mobile-apps',
@@ -155,12 +224,11 @@ export const projects = [
     year: 'Collection',
     status: 'done',
     featured: false,
-    link: 'https://github.com/MuradIsmayilzadeh/Mobile-Applications',
-    linkLabel: 'GitHub',
-    summary: 'Open-source React Native utilities and experiments.',
+    links: [{ kind: 'code', label: 'Code', href: `${GH}/Mobile-Applications` }],
+    summary: 'React Native apps: chat, news, auth, booking and more.',
     description:
-      'Utilities, experimental ideas and real-world solutions, designed with modular architecture and API-driven communication.',
-    tech: ['React Native', 'JavaScript', 'Custom API'],
+      'A collection of Expo / React Native apps including a chat app, a news reader with a Python backend, an authentication app and salon booking apps, designed with modular architecture and API-driven communication.',
+    tech: ['React Native', 'Expo', 'JavaScript', 'Python'],
   },
   {
     id: 'portfolio',
@@ -169,8 +237,10 @@ export const projects = [
     year: '2026',
     status: 'live',
     featured: false,
-    link: 'https://github.com/MuradIsmayilzadeh/Portfolio',
-    linkLabel: 'GitHub',
+    links: [
+      { kind: 'live', label: 'Live', href: `${PAGES}/Portfolio/` },
+      { kind: 'code', label: 'Code', href: `${GH}/Portfolio` },
+    ],
     summary: 'Statically exported Next.js site, deployed to GitHub Pages.',
     description:
       'Minimal, data-driven and dependency-light: one content file, CSS-only effects, reduced-motion support and a CI pipeline that exports and deploys on every push.',
@@ -231,7 +301,7 @@ export const contacts = [
     id: 'github',
     label: 'GitHub',
     value: 'MuradIsmayilzadeh',
-    href: 'https://github.com/MuradIsmayilzadeh',
+    href: GH,
   },
   {
     id: 'youtube',

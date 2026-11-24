@@ -825,25 +825,62 @@ ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   margin-top: 22px;
   padding-top: 16px;
   border-top: 1px dashed var(--line);
 }
+.card__stretch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.card__badge {
+  margin-left: 10px;
+  padding: 2px 7px;
+  vertical-align: middle;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(196, 255, 77, 0.35);
+  border-radius: 999px;
+}
+.card__links {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
 .card__cta {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.85rem;
-  transition: color 0.2s;
+  gap: 6px;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
-.card__cta svg {
-  transition: transform 0.25s var(--ease);
+span.card__cta {
+  border-color: transparent;
 }
-.card--link:hover .card__cta {
+a.card__cta:hover {
   color: var(--accent);
+  border-color: var(--accent);
 }
-.card--link:hover .card__cta svg {
-  transform: translate(2px, -2px);
+.card__cta--live {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+a.card__cta--live:hover {
+  color: var(--accent-ink);
+  box-shadow: 0 0 16px rgba(196, 255, 77, 0.4);
 }
 
 .tag {
