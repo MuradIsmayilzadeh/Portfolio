@@ -186,7 +186,7 @@ export default function ShapeField() {
       }
     }
     const interactive = (t) =>
-      t.closest?.('a, button, input, textarea, select, label, summary, [role="button"], .card, .split__panel, .nav')
+      t.closest?.('a, button, input, textarea, select, label, summary, [role="button"], .card, .split__panel, .nav, .rail')
     const onDown = (e) => {
       if (view.o < 0.25 || e.button > 0 || interactive(e.target)) return
       drag.type = e.pointerType

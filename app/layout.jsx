@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import Cursor from '../components/Cursor'
 import BootLoader from '../components/BootLoader'
 import ScrollTop from '../components/ScrollTop'
+import ScrollRail from '../components/ScrollRail'
 import ShapeField from '../components/ShapeField'
 import { profile } from '../data/site'
 import './globals.css'
@@ -55,6 +56,7 @@ export default function RootLayout({ children }) {
         <BootLoader />
         <Cursor />
         <ScrollTop />
+        <ScrollRail />
         <ShapeField />
         <Navbar />
         <main id="main" className="page">{children}</main>
