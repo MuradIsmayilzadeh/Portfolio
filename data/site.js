@@ -18,6 +18,11 @@ export const profile = {
   tagline:
     'I build games, engines and the platforms around them — from C++ render loops to production web systems used by real students every day.',
   status: 'Open to collaborations & internships',
+  work: {
+    org: 'Sənaye və Texnologiya Kolleci',
+    short: 'STK',
+    since: '15 August 2026',
+  },
 }
 
 export const categories = [
@@ -272,6 +277,11 @@ export const timeline = [
     when: 'Now',
     title: 'Caucasus Nights & ImEngine',
     text: 'Building an open-world UE5 driving game and my own C++ engine side by side.',
+  },
+  {
+    when: 'Aug 2026',
+    title: 'Sənaye və Texnologiya Kolleci',
+    text: 'Joined the college on 15 August 2026 — the home of STK Library and the mySTK portal.',
   },
   {
     when: '2026',

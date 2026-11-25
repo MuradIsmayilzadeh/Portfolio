@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 
 // 3D tilt + cursor spotlight for cards. Writes CSS vars only:
 // --rx / --ry (deg) and --mx / --my (spotlight position, %).
-export default function Tilt({ children, max = 7 }) {
+export default function Tilt({ children, max = 7, className = '', as: Tag = 'div' }) {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -43,8 +43,8 @@ export default function Tilt({ children, max = 7 }) {
   }, [max])
 
   return (
-    <div ref={ref} className="tilt">
+    <Tag ref={ref} className={`tilt ${className}`}>
       {children}
-    </div>
+    </Tag>
   )
 }

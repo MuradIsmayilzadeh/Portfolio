@@ -38,6 +38,14 @@ export default function Cursor() {
 
     const onLeave = () => ring.current?.classList.add('is-hidden')
     const onEnter = () => ring.current?.classList.remove('is-hidden')
+    const onDown = () => {
+      ring.current?.classList.add('is-down')
+      dot.current?.classList.add('is-down')
+    }
+    const onUp = () => {
+      ring.current?.classList.remove('is-down')
+      dot.current?.classList.remove('is-down')
+    }
 
     const loop = () => {
       pos.x += (target.x - pos.x) * 0.18
@@ -50,6 +58,9 @@ export default function Cursor() {
 
     window.addEventListener('pointermove', onMove, { passive: true })
     document.addEventListener('pointerover', onOver)
+    window.addEventListener('pointerdown', onDown, { passive: true })
+    window.addEventListener('pointerup', onUp, { passive: true })
+    window.addEventListener('blur', onUp)
     document.documentElement.addEventListener('pointerleave', onLeave)
     document.documentElement.addEventListener('pointerenter', onEnter)
     raf = requestAnimationFrame(loop)
@@ -58,6 +69,9 @@ export default function Cursor() {
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerover', onOver)
+      window.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('blur', onUp)
       document.documentElement.removeEventListener('pointerleave', onLeave)
       document.documentElement.removeEventListener('pointerenter', onEnter)
       document.documentElement.classList.remove('has-cursor')

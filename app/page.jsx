@@ -9,10 +9,11 @@ import Marquee from '../components/Marquee'
 import ScrubText from '../components/ScrubText'
 import CountUp from '../components/CountUp'
 import Clock from '../components/Clock'
-import ShapeField from '../components/ShapeField'
 import SplitScroll from '../components/home/SplitScroll'
 import HorizontalWork from '../components/home/HorizontalWork'
 import Orbit3D from '../components/home/Orbit3D'
+import Tilt from '../components/Tilt'
+import Hero3D from '../components/home/Hero3D'
 import { profile, projects, skills } from '../data/site'
 
 const steps = [
@@ -56,8 +57,6 @@ export default function Home() {
 
   return (
     <>
-      <ShapeField />
-
       {/* HERO ------------------------------------------------------------ */}
       <section className="hero wrap" data-shape="sphere" data-shape-x="0.28" data-shape-scale="0.95">
         <Reveal className="hero__meta mono" variant="fade">
@@ -65,10 +64,12 @@ export default function Home() {
           {profile.status}
         </Reveal>
 
-        <Reveal as="h1" className="hero__title" variant="none">
-          <SplitText text="Murad" className="hero__line" />
-          <SplitText text="Ismayilzada" className="hero__line hero__line--outline" delay={140} />
-        </Reveal>
+        <Hero3D>
+          <Reveal as="h1" className="hero__title" variant="none">
+            <SplitText text="Murad" className="hero__line" />
+            <SplitText text="Ismayilzada" className="hero__line hero__line--outline" delay={140} />
+          </Reveal>
+        </Hero3D>
 
         <Reveal className="hero__role mono" delay={500}>
           <span className="accent">~/</span> <RoleCycler roles={profile.roles} />
@@ -134,10 +135,12 @@ export default function Home() {
       <section className="wrap section" data-shape="grid" data-shape-x="0" data-shape-scale="1.3" data-shape-o="0.35">
         <Reveal className="stats">
           {stats.map((s) => (
-            <div className="stat" key={s.label}>
-              <span className="stat__value"><CountUp value={s.value} /></span>
-              <span className="stat__label mono">{s.label}</span>
-            </div>
+            <Tilt className="tilt--box" key={s.label} max={10}>
+              <div className="stat">
+                <span className="stat__value"><CountUp value={s.value} /></span>
+                <span className="stat__label mono">{s.label}</span>
+              </div>
+            </Tilt>
           ))}
         </Reveal>
       </section>

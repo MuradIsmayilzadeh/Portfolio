@@ -84,6 +84,7 @@ export default function Orbit3D({ items, title = 'The stack' }) {
         tiles[front]?.classList.remove('is-front')
         front = best
         tiles[front].classList.add('is-front')
+        if (!label.current || !count.current) return
         label.current.textContent = items[front].group
         count.current.textContent = `${String(front + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`
       }

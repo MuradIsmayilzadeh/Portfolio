@@ -32,7 +32,7 @@ export default function HorizontalWork({ projects, children }) {
     const onRowScroll = () => {
       if (pinned) return
       const max = tr.scrollWidth - tr.clientWidth
-      bar.current.style.transform = `scaleX(${max > 0 ? tr.scrollLeft / max : 0})`
+      if (bar.current) bar.current.style.transform = `scaleX(${max > 0 ? tr.scrollLeft / max : 0})`
     }
     tr.addEventListener('scroll', onRowScroll, { passive: true })
 
@@ -46,7 +46,7 @@ export default function HorizontalWork({ projects, children }) {
       lastP = p
       const max = tr.scrollWidth - window.innerWidth
       tr.style.transform = `translate3d(${Math.round(-p * max)}px, 0, 0)`
-      bar.current.style.transform = `scaleX(${p})`
+      if (bar.current) bar.current.style.transform = `scaleX(${p})`
     })
     return () => {
       unsub()

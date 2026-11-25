@@ -13,7 +13,7 @@ export default function Projects() {
   const live = projects.filter((p) => p.links?.some((l) => l.kind === 'live')).length
 
   return (
-    <section className="wrap section--top section--bottom">
+    <section className="wrap section--top section--bottom" data-shape="cube" data-shape-x="0.3" data-shape-y="-0.12" data-shape-scale="0.7" data-shape-o="0.5" data-shape-my="-0.25" data-shape-ms="0.6">
       <Reveal className="page-head" variant="none">
         <Decode className="eyebrow" text="// 01 — Work" />
         <h1 className="h1"><SplitText text="Projects" /></h1>

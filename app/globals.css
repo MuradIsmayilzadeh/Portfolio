@@ -228,11 +228,36 @@ ol {
   pointer-events: none;
   border-radius: 50%;
 }
+/* The dot IS the pointer: the system cursor is hidden while it is active.
+   Its centre is the exact click point; a dark ring keeps it visible on
+   bright surfaces such as the lime buttons. */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
 .has-cursor .cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
   background: var(--accent);
+  box-shadow: 0 0 0 1.5px rgba(7, 8, 10, 0.9), 0 0 10px rgba(196, 255, 77, 0.6);
+  transition: width 0.2s var(--ease), height 0.2s var(--ease), margin 0.2s var(--ease), background 0.2s;
+}
+.has-cursor .cursor-dot.is-down {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: #fff;
+}
+.has-cursor .cursor-ring.is-down {
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+}
+.has-cursor .cursor-ring.is-hover.is-down {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
 }
 .has-cursor .cursor-ring {
   width: 34px;
@@ -618,8 +643,8 @@ html.is-booting .boot {
   overflow: hidden;
   vertical-align: bottom;
   /* room for accents, descenders and outline strokes so nothing is cut */
-  padding: 0.22em 0.08em 0.24em;
-  margin: -0.22em -0.08em -0.24em;
+  padding: 0.22em 0.08em 0.36em;
+  margin: -0.22em -0.08em -0.36em;
 }
 .split-text__ch {
   display: inline-block;
@@ -1935,8 +1960,19 @@ a.card__cta--live:hover {
    ========================================================================== */
 html.is-dragging,
 html.is-dragging * {
-  cursor: grabbing !important;
   user-select: none;
+}
+html:not(.has-cursor).is-dragging,
+html:not(.has-cursor).is-dragging * {
+  cursor: grabbing !important;
+}
+/* while spinning the model, the ring grows into a grab handle */
+html.is-dragging .cursor-ring {
+  width: 54px;
+  height: 54px;
+  margin: -27px 0 0 -27px;
+  border-style: dashed;
+  border-color: var(--accent);
 }
 
 /* Decode (scramble) text */
@@ -1985,8 +2021,9 @@ html.is-dragging * {
 .hero__title .split-text__ch {
   transition: transform 1.1s var(--ease), text-shadow 0.35s, color 0.35s;
 }
-.hero__title:hover .split-text__ch {
-  text-shadow: -0.03em 0 rgba(94, 225, 255, 0.75), 0.03em 0 rgba(255, 60, 120, 0.6);
+/* subtle colour split on the solid line only (on outlined glyphs it smears) */
+.hero__title:hover .hero__line:not(.hero__line--outline) .split-text__ch {
+  text-shadow: -0.02em 0 rgba(94, 225, 255, 0.55), 0.02em 0 rgba(255, 60, 120, 0.45);
 }
 .hero__title .is-in .split-text__ch:hover,
 .hero__title.is-in .split-text__ch:hover {
@@ -2471,6 +2508,161 @@ button {
     flex-direction: column;
     gap: 4px;
   }
+}
+
+/* ==========================================================================
+   3D polish
+   ========================================================================== */
+/* Hero name in 3D */
+.hero3d {
+  --h-rx: 0deg;
+  --h-ry: 0deg;
+  --h-sx: 0;
+  --h-sy: 0;
+  perspective: 1100px;
+  perspective-origin: 30% 50%;
+}
+.hero3d .hero__title {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--h-rx)) rotateY(var(--h-ry));
+}
+.hero3d .hero__line {
+  transform: translateZ(46px);
+}
+.hero3d .hero__line--outline {
+  transform: translateZ(8px);
+}
+/* extruded depth on the solid line, shifting with the angle */
+.hero3d .hero__line:not(.hero__line--outline) {
+  text-shadow:
+    calc(var(--h-sx) * 1px) calc(var(--h-sy) * 1px + 1px) 0 #1b1f24,
+    calc(var(--h-sx) * 2px) calc(var(--h-sy) * 2px + 2px) 0 #171a1f,
+    calc(var(--h-sx) * 3px) calc(var(--h-sy) * 3px + 3px) 0 #13161a,
+    calc(var(--h-sx) * 4px) calc(var(--h-sy) * 4px + 4px) 0 #101215,
+    calc(var(--h-sx) * 5px) calc(var(--h-sy) * 5px + 5px) 0 #0d0f12,
+    0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* Generic 3D tilt boxes (stats, skill sets, mailbox) */
+.tilt--box > * {
+  width: 100%;
+  transition: transform 0.6s var(--ease), box-shadow 0.4s;
+}
+@media (hover: hover) {
+  .tilt--box:hover > * {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(6px);
+    transition-duration: 0.15s;
+  }
+}
+.tilt--box > *::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(196, 255, 77, 0.1), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.tilt--box:hover > *::after {
+  opacity: 1;
+}
+
+/* Stats: grid lines from a 1px gap so wrapped cells keep their borders */
+.stats {
+  gap: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+.stats .stat,
+.stats .stat + .stat {
+  position: relative;
+  height: 100%;
+  border: 0;
+  background: #0c0e11;
+}
+
+/* About skill sets */
+.skills__cell {
+  display: flex;
+}
+.skillset {
+  position: relative;
+}
+
+/* Contact mailbox */
+.mailbox-wrap {
+  margin-bottom: 28px;
+}
+.mailbox-wrap .mailbox {
+  position: relative;
+  margin-bottom: 0;
+}
+
+/* 404 */
+.nf {
+  min-height: calc(100svh - var(--nav-h) - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 60px;
+}
+.nf__code {
+  display: flex;
+  margin: 10px 0 18px;
+  font-size: clamp(7rem, 30vw, 18rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  perspective: 800px;
+}
+.nf__code span {
+  display: inline-block;
+  animation: nf-float 5s ease-in-out infinite;
+}
+.nf__code span:nth-child(2) {
+  animation-delay: -1.6s;
+}
+.nf__code span:nth-child(3) {
+  animation-delay: -3.2s;
+}
+.nf__zero {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  text-shadow: 0 0 40px rgba(196, 255, 77, 0.35);
+}
+@keyframes nf-float {
+  50% {
+    transform: translateY(-0.06em) rotateY(18deg) rotateX(8deg);
+  }
+}
+.nf__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero3d .hero__title {
+    transform: none;
+  }
+  .nf__code span {
+    animation: none;
+  }
+}
+
+.portrait__work {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--text);
+  background: var(--surface);
 }
 
 /* ==========================================================================

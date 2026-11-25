@@ -27,6 +27,7 @@ export default function SplitScroll({ steps, tiles }) {
 
       const L = left.current
       const Rc = right.current
+      if (!L || !Rc || !bar.current || !counter.current) return
       const rMax = Rc.scrollHeight - h
       // Panels hold, then glide to the next one (a stepped "snap" feel).
       const last = steps.length - 1
@@ -76,7 +77,7 @@ export default function SplitScroll({ steps, tiles }) {
 
         <div className="split__center" aria-hidden="true">
           <div className="split__hud mono">
-            <span>// CAPABILITY</span>
+            <span>{'// CAPABILITY'}</span>
             <span className="split__count" ref={counter}>01</span>
           </div>
           <div className="split__rail"><span ref={bar} /></div>

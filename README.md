@@ -29,6 +29,9 @@ data/site.js    content
   It is interactive: points flee the cursor, dragging spins it, and a click blasts it apart into the next shape.
 - `components/home/Orbit3D.jsx` — pinned 3D ring of tech tiles around the model; scroll or drag to spin.
 - `Decode` scrambles labels into place; `FooterMark` is the cursor-lit footer wordmark.
+- The model lives in the root layout, so it morphs between pages too. `Hero3D` turns the hero name toward the cursor; `Tilt` adds 3D tilt to cards, stats and panels.
+- On desktop the system cursor is hidden and the dot is the pointer (its centre is the click point).
+- `trailingSlash: true` keeps static-export links and prefetches working under the GitHub Pages base path.
 - `components/home/SplitScroll.jsx` — pinned section: the left column scrolls up, the right column scrolls down, and the model morphs per step in the middle.
 - `components/home/HorizontalWork.jsx` — vertical scroll drives a horizontal project rail (a swipeable row on narrow screens).
 - `Reveal`, `SplitText`, `ScrubText`, `ScrollVar`, `Marquee`, `Magnetic`, `Tilt`, `CountUp` — reveal and interaction building blocks.

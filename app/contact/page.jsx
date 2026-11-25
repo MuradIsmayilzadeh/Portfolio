@@ -6,6 +6,7 @@ import SplitText from '../../components/SplitText'
 import Magnetic from '../../components/Magnetic'
 import CopyButton from '../../components/CopyButton'
 import Clock from '../../components/Clock'
+import Tilt from '../../components/Tilt'
 import { contacts } from '../../data/site'
 
 export const metadata = {
@@ -26,7 +27,7 @@ export default function Contact() {
   const email = contacts.find((c) => c.id === 'email')
 
   return (
-    <section className="wrap section--top section--bottom">
+    <section className="wrap section--top section--bottom" data-shape="sphere" data-shape-x="0.3" data-shape-y="-0.15" data-shape-scale="0.6" data-shape-o="0.6" data-shape-my="-0.3" data-shape-ms="0.5">
       <Reveal className="page-head" variant="none">
         <Decode className="eyebrow" text="// 03 — Contact" />
         <h1 className="h1"><SplitText text="Let's talk" /></h1>
@@ -35,7 +36,9 @@ export default function Contact() {
         </Reveal>
       </Reveal>
 
-      <Reveal className="mailbox" variant="clip">
+      <Reveal className="mailbox-wrap" variant="clip">
+      <Tilt className="tilt--box" max={4}>
+      <div className="mailbox">
         <div className="mailbox__top mono">
           <span><span className="pulse" aria-hidden="true" /> Accepting messages</span>
           <Clock />
@@ -51,6 +54,8 @@ export default function Contact() {
             <CopyButton value={email.value} />
           </Magnetic>
         </div>
+      </div>
+      </Tilt>
       </Reveal>
 
       <ul className="channels">

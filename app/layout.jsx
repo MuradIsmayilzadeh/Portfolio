@@ -4,22 +4,24 @@ import Footer from '../components/Footer'
 import Cursor from '../components/Cursor'
 import BootLoader from '../components/BootLoader'
 import ScrollTop from '../components/ScrollTop'
+import ShapeField from '../components/ShapeField'
 import { profile } from '../data/site'
 import './globals.css'
 
 const display = Space_Grotesk({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-display',
   display: 'swap',
 })
 
 const mono = JetBrains_Mono({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-mono',
   display: 'swap',
 })
 
 export const metadata = {
+  metadataBase: new URL('https://muradismayilzadeh.github.io/Portfolio/'),
   title: {
     default: `${profile.name} — Game & Engine Developer`,
     template: `%s · ${profile.name}`,
@@ -53,6 +55,7 @@ export default function RootLayout({ children }) {
         <BootLoader />
         <Cursor />
         <ScrollTop />
+        <ShapeField />
         <Navbar />
         <main id="main" className="page">{children}</main>
         <Footer />
